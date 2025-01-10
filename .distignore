@@ -1,0 +1,37 @@
+# Git
+.git
+.github
+.gitignore
+
+# Node
+node_modules
+package-lock.json
+package.json
+
+# Development files
+.distignore
+.editorconfig
+.eslintrc
+.eslintignore
+.prettierrc
+.stylelintrc
+webpack.config.js
+scripts
+src
+
+# Build process
+.DS_Store
+*.map
+*.log
+
+# Tests
+tests
+phpunit.xml
+phpunit.xml.dist
+.travis.yml
+.phpcs.xml.dist
+
+# Documentation
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+CHANGELOG.md

@@ -1,0 +1,269 @@
+// Variables
+$primary-color: #2271b1;
+$primary-hover: #135e96;
+$border-color: #e2e4e7;
+$text-color: #1e1e1e;
+$light-bg: #f8f9fa;
+$card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+$input-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+$transition: all 0.2s ease-in-out;
+
+// Mixins
+@mixin input-styles {
+    height: 42px;
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: $text-color;
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-radius: 6px;
+    box-shadow: $input-shadow;
+    transition: $transition;
+    width: 100%;
+
+    &:hover {
+        border-color: darken($border-color, 10%);
+    }
+
+    &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 1px $primary-color;
+        outline: none;
+    }
+}
+
+@mixin button-styles {
+    height: 42px;
+    padding: 0 24px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: #fff;
+    background: $primary-color;
+    border: 1px solid darken($primary-color, 5%);
+    border-radius: 6px;
+    box-shadow: $input-shadow;
+    cursor: pointer;
+    transition: $transition;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    &:hover:not(:disabled) {
+        background: $primary-hover;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba($primary-color, 0.3);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        background: desaturate($primary-color, 35%);
+    }
+
+    .components-spinner {
+        margin: 0 8px 0 0;
+    }
+}
+
+.wp-seo-analyzer {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: $card-shadow;
+    margin: 20px 0;
+    overflow: hidden;
+
+    &__controls {
+        background: $light-bg;
+        padding: 24px;
+        border-bottom: 1px solid $border-color;
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 24px;
+            align-items: flex-start;
+
+            @media (max-width: 782px) {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .components-base-control {
+                margin-bottom: 0;
+
+                .components-base-control__label {
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    font-size: 13px;
+                    color: $text-color;
+                }
+
+                .components-text-control__input {
+                    @include input-styles;
+                }
+
+                .components-select-control {
+                    position: relative;
+
+                    &::after {
+                        content: none !important;
+                    }
+
+                    .components-select-control__input {
+                        @include input-styles;
+                        padding-right: 32px !important;
+                        appearance: none !important;
+                        -webkit-appearance: none !important;
+                        -moz-appearance: none !important;
+                        background-color: #fff !important;
+                        box-shadow: $input-shadow !important;
+                        min-height: 42px !important;
+                        height: 42px !important;
+                        max-width: none !important;
+                        width: 100% !important;
+                        white-space: nowrap !important;
+                        text-overflow: ellipsis !important;
+                        overflow: hidden !important;
+
+                        &::-ms-expand {
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+            .components-button.is-primary {
+                @include button-styles;
+                margin-top: 1.75em; 
+            }
+
+            .components-checkbox-control {
+                margin-top: 8px;
+                grid-column: 1 / -1; 
+
+                .components-checkbox-control__input {
+                    border: 1px solid $border-color;
+                    border-radius: 4px;
+                    box-shadow: $input-shadow;
+                    
+                    &:checked {
+                        background-color: $primary-color;
+                        border-color: $primary-color;
+                    }
+                }
+
+                .components-checkbox-control__label {
+                    font-size: 13px;
+                    color: $text-color;
+                }
+            }
+        }
+    }
+
+    &__results {
+        padding: 24px;
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 24px;
+            
+            th {
+                background: $light-bg;
+                padding: 12px 16px;
+                text-align: left;
+                font-weight: 600;
+                font-size: 13px;
+                color: $text-color;
+                border-bottom: 2px solid $border-color;
+                white-space: nowrap;
+
+                &:first-child {
+                    border-top-left-radius: 6px;
+                }
+
+                &:last-child {
+                    border-top-right-radius: 6px;
+                }
+            }
+
+            td {
+                padding: 16px;
+                border-bottom: 1px solid $border-color;
+                font-size: 14px;
+                color: #50575e;
+
+                a {
+                    color: $primary-color;
+                    text-decoration: none;
+                    font-weight: 500;
+
+                    &:hover {
+                        color: $primary-hover;
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            tr:hover td {
+                background-color: rgba($light-bg, 0.5);
+            }
+        }
+    }
+
+    &__pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px;
+        background: $light-bg;
+        border-top: 1px solid $border-color;
+
+        .page-info {
+            font-size: 13px;
+            color: #50575e;
+
+            strong {
+                color: $text-color;
+            }
+        }
+
+        .components-button {
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            background: #fff;
+            border: 1px solid $border-color;
+            color: $text-color;
+            transition: $transition;
+
+            &:hover:not(:disabled) {
+                background: #f0f0f1;
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+.wp-seo-analyzer-content {
+    margin: 24px auto;
+}
