@@ -1,8 +1,11 @@
 <?php
 /**
  * Plugin Name: WP SEO Analyzer
- * Description: A WordPress plugin to analyze SEO metrics of your content.
+ * Plugin URI: https://github.com/hnikoloski/wp-seo-analyzer
+ * Description: A high-performance WordPress plugin for programmatic SEO analysis
  * Version: 1.0.0
+ * Requires at least: 6.7.1
+ * Requires PHP: 8.3.3
  * Author: hNikoloski
  * Author URI: https://hnikoloski.com
  * License: GPL v2 or later

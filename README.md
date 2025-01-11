@@ -2,8 +2,9 @@
 
 > 🚀 Supercharge your WordPress content analysis with this high-performance SEO toolkit!
 
-[![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-blue.svg)](https://wordpress.org/)
-[![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net/)
+[![WordPress](https://img.shields.io/badge/WordPress-6.7.1%2B-blue.svg)](https://wordpress.org/)
+[![PHP](https://img.shields.io/badge/PHP-8.3.3%2B-purple.svg)](https://php.net/)
+[![Node](https://img.shields.io/badge/Node-20.14.0%2B-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/license-GPL--2.0-orange.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -37,9 +38,9 @@ WP SEO Analyzer is a powerful, modern WordPress plugin that brings enterprise-le
 ### System Requirements
 | Requirement | Version |
 |------------|---------|
-| WordPress  | 5.8+    |
-| PHP        | 7.4+    |
-| Node.js    | 14+     |
+| WordPress  | 6.7.1+  |
+| PHP        | 8.3.3+  |
+| Node.js    | 20.14.0+|
 
 ### ⚡️ Quick Install
 
