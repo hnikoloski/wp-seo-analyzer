@@ -82,7 +82,12 @@ const Table = memo(({ data, pageSize: initialPageSize }) => {
     return (
         <div className="wp-seo-analyzer__results">
             <div className="wp-seo-analyzer__results-header">
-                <h2>{__('Results', 'wp-seo-analyzer')}</h2>
+                <div className="wp-seo-analyzer__results-info">
+                    <h2>{__('Results', 'wp-seo-analyzer')}</h2>
+                    <span className="wp-seo-analyzer__total-count">
+                        {__('Total items:', 'wp-seo-analyzer')} {data.length}
+                    </span>
+                </div>
                 <SelectControl
                     label={__('Results per page', 'wp-seo-analyzer')}
                     value={pageSize}
@@ -95,56 +100,60 @@ const Table = memo(({ data, pageSize: initialPageSize }) => {
                     onChange={value => setPageSize(Number(value))}
                 />
             </div>
-            <table {...getTableProps()} className="wp-list-table widefat fixed striped">
-                <thead>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                    {column.render('Header')}
-                                    <span>
-                                        {column.isSorted
-                                            ? column.isSortedDesc
-                                                ? ' 🔽'
-                                                : ' 🔼'
-                                            : ''}
-                                    </span>
-                                </th>
+            <div className="wp-seo-analyzer__table-section">
+                <div className="table-wrapper">
+                    <table {...getTableProps()} className="wp-list-table widefat fixed striped">
+                        <thead>
+                            {headerGroups.map(headerGroup => (
+                                <tr {...headerGroup.getHeaderGroupProps()}>
+                                    {headerGroup.headers.map(column => (
+                                        <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                            {column.render('Header')}
+                                            <span>
+                                                {column.isSorted
+                                                    ? column.isSortedDesc
+                                                        ? ' 🔽'
+                                                        : ' 🔼'
+                                                    : ''}
+                                            </span>
+                                        </th>
+                                    ))}
+                                </tr>
                             ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {page.map(row => {
-                        prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => (
-                                    <td {...cell.getCellProps()}>
-                                        {cell.render('Cell')}
-                                    </td>
-                                ))}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-            <div className="wp-seo-analyzer__pagination">
-                <Button
-                    onClick={() => previousPage()}
-                    disabled={!canPreviousPage}
-                >
-                    {__('Previous', 'wp-seo-analyzer')}
-                </Button>
-                <span className="page-info">
-                    {__('Page', 'wp-seo-analyzer')} <strong>{pageIndex + 1}</strong> {__('of', 'wp-seo-analyzer')} <strong>{pageOptions.length}</strong>
-                </span>
-                <Button
-                    onClick={() => nextPage()}
-                    disabled={!canNextPage}
-                >
-                    {__('Next', 'wp-seo-analyzer')}
-                </Button>
+                        </thead>
+                        <tbody {...getTableBodyProps()}>
+                            {page.map(row => {
+                                prepareRow(row);
+                                return (
+                                    <tr {...row.getRowProps()}>
+                                        {row.cells.map(cell => (
+                                            <td {...cell.getCellProps()}>
+                                                {cell.render('Cell')}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="wp-seo-analyzer__pagination">
+                    <Button
+                        onClick={() => previousPage()}
+                        disabled={!canPreviousPage}
+                    >
+                        {__('Previous', 'wp-seo-analyzer')}
+                    </Button>
+                    <span className="page-info">
+                        {__('Page', 'wp-seo-analyzer')} <strong>{pageIndex + 1}</strong> {__('of', 'wp-seo-analyzer')} <strong>{pageOptions.length}</strong>
+                    </span>
+                    <Button
+                        onClick={() => nextPage()}
+                        disabled={!canNextPage}
+                    >
+                        {__('Next', 'wp-seo-analyzer')}
+                    </Button>
+                </div>
             </div>
         </div>
     );
@@ -240,13 +249,7 @@ const SeoAnalyzer = memo(function SeoAnalyzer() {
                     <SelectControl
                         label={__('Post Type', 'wp-seo-analyzer')}
                         value={postType}
-                        options={[
-                            { label: __('All', 'wp-seo-analyzer'), value: 'all' },
-                            ...(postTypes || []).map(type => ({
-                                label: type.label,
-                                value: type.value
-                            }))
-                        ]}
+                        options={postTypes}
                         onChange={setPostType}
                     />
                     <Button

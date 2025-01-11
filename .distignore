@@ -1,37 +1,25 @@
-# Git
+.wordpress-org
+node_modules
 .git
 .github
 .gitignore
-
-# Node
-node_modules
-package-lock.json
-package.json
-
-# Development files
 .distignore
-.editorconfig
 .eslintrc
-.eslintignore
-.prettierrc
-.stylelintrc
+.editorconfig
+README.md
 webpack.config.js
-scripts
+package.json
+package-lock.json
 src
-
-# Build process
-.DS_Store
-*.map
-*.log
-
-# Tests
 tests
+bin
+vendor
+composer.json
+composer.lock
 phpunit.xml
-phpunit.xml.dist
+phpcs.xml
 .travis.yml
-.phpcs.xml.dist
-
-# Documentation
-CONTRIBUTING.md
-CODE_OF_CONDUCT.md
-CHANGELOG.md
+.DS_Store
+Thumbs.db
+.idea
+.vscode

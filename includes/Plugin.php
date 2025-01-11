@@ -18,8 +18,7 @@ class Plugin {
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
         
-        // Initialize API and Settings
-        Settings::get_instance();
+        // Initialize API
         $this->api = new Api();
         
         // Add shortcode
@@ -27,6 +26,20 @@ class Plugin {
     }
 
     public function init() {
+        // Register custom block category
+        add_filter('block_categories_all', function($categories) {
+            return array_merge(
+                $categories,
+                [
+                    [
+                        'slug' => 'seo-tools',
+                        'title' => __('SEO Tools', 'wp-seo-analyzer'),
+                        'icon'  => 'chart-line' // Using Dashicons
+                    ]
+                ]
+            );
+        });
+
         // Register block
         register_block_type(dirname(__DIR__) . '/src/blocks/seo-analyzer', [
             'render_callback' => [$this, 'render_block']

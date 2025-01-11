@@ -111,35 +111,139 @@ $transition: all 0.2s ease-in-out;
                     color: $text-color;
                 }
 
+                // Style the input backdrop
+                .components-input-control__backdrop{
+                    border: 1px solid $border-color !important;
+                    border-radius: 4px !important;
+                    box-shadow: none !important;
+                    transition: all 0.2s ease-in-out !important;
+
+                    &:hover {
+                        border-color: darken($border-color, 10%) !important;
+                    }
+                }
+                .components-input-control__label{
+                    font-size: 13px;
+                    color: $text-color;
+                }
+                // Remove default focus styles
+                .components-input-control__container {
+                    &:focus-within {
+                        .components-input-control__backdrop {
+                            border-color: $primary-color !important;
+                            box-shadow: 0 0 0 1px $primary-color !important;
+                            outline: 2px solid transparent !important;
+                        }
+                    }
+                }
+
                 .components-text-control__input {
                     @include input-styles;
+                    border: none !important;
+                    box-shadow: none !important;
+
+                    &:focus {
+                        border: none !important;
+                        box-shadow: none !important;
+                    }
                 }
 
                 .components-select-control {
                     position: relative;
 
-                    &::after {
-                        content: none !important;
-                    }
-
                     .components-select-control__input {
                         @include input-styles;
                         padding-right: 32px !important;
-                        appearance: none !important;
-                        -webkit-appearance: none !important;
-                        -moz-appearance: none !important;
                         background-color: #fff !important;
-                        box-shadow: $input-shadow !important;
-                        min-height: 42px !important;
-                        height: 42px !important;
-                        max-width: none !important;
-                        width: 100% !important;
-                        white-space: nowrap !important;
-                        text-overflow: ellipsis !important;
-                        overflow: hidden !important;
+                    }
 
-                        &::-ms-expand {
-                            display: none;
+                    // Hide default WordPress select arrow
+                    &::after {
+                        display: none !important;
+                    }
+
+                    // Hide default browser select arrow
+                    select::-ms-expand {
+                        display: none !important;
+                    }
+
+                    .components-select-control__arrow {
+                        display: none !important;
+                    }
+                }
+
+                .components-checkbox-control {
+                    .components-checkbox-control__input-container {
+                        width: 20px !important;
+                        height: 20px !important;
+                        margin-right: 8px !important;
+                        position: relative !important;
+
+                        .components-checkbox-control__input {
+                            width: 20px !important;
+                            height: 20px !important;
+                            border: 1px solid $border-color !important;
+                            border-radius: 4px !important;
+                            margin: 0 !important;
+                            padding: 0 !important;
+                            position: relative !important;
+                            transition: all 0.2s ease-in-out !important;
+                            background: #fff !important;
+                            min-width: 20px !important;
+                            
+                            &:checked {
+                                background-color: $primary-color !important;
+                                border-color: $primary-color !important;
+                            }
+
+                            &:hover {
+                                border-color: darken($border-color, 10%) !important;
+                                box-shadow: 0 0 0 1px darken($border-color, 10%) !important;
+                            }
+
+                            &:focus {
+                                border-color: $primary-color !important;
+                                box-shadow: 0 0 0 1px $primary-color !important;
+                                outline: 2px solid transparent !important;
+                            }
+                        }
+
+                        // Custom checkmark SVG
+                        .components-checkbox-control__checked {
+                            position: absolute !important;
+                            left: 0 !important;
+                            top: 0 !important;
+                            width: 20px !important;
+                            height: 20px !important;
+                            pointer-events: none !important;
+                            color: white !important;
+                            display: none !important;
+
+                            path {
+                                fill: white !important;
+                            }
+                        }
+
+                        // Show checkmark only when checked
+                        .components-checkbox-control__input:checked + .components-checkbox-control__checked {
+                            display: block !important;
+                        }
+                    }
+
+                    .components-checkbox-control__label {
+                        font-size: 13px !important;
+                        color: $text-color !important;
+                        margin-bottom: 0 !important;
+                    }
+                }
+
+                // Remove default focus styles
+                .components-input-control__container {
+                    &:focus-within {
+                        .components-input-control__backdrop {
+                            border-color: $primary-color !important;
+                            box-shadow: 0 0 0 1px $primary-color !important;
+                            outline: 2px solid transparent !important;
                         }
                     }
                 }
@@ -154,34 +258,144 @@ $transition: all 0.2s ease-in-out;
                 margin-top: 8px;
                 grid-column: 1 / -1; 
 
-                .components-checkbox-control__input {
-                    border: 1px solid $border-color;
-                    border-radius: 4px;
-                    box-shadow: $input-shadow;
-                    
-                    &:checked {
-                        background-color: $primary-color;
-                        border-color: $primary-color;
+                .components-checkbox-control__input-container {
+                    width: 20px !important;
+                    height: 20px !important;
+                    margin-right: 8px !important;
+                    position: relative !important;
+
+                    .components-checkbox-control__input {
+                        width: 20px !important;
+                        height: 20px !important;
+                        border: 1px solid $border-color !important;
+                        border-radius: 4px !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        position: relative !important;
+                        transition: all 0.2s ease-in-out !important;
+                        background: #fff !important;
+                        min-width: 20px !important;
+                        
+                        &:checked {
+                            background-color: $primary-color !important;
+                            border-color: $primary-color !important;
+                        }
+
+                        &:hover {
+                            border-color: darken($border-color, 10%) !important;
+                            box-shadow: 0 0 0 1px darken($border-color, 10%) !important;
+                        }
+
+                        &:focus {
+                            border-color: $primary-color !important;
+                            box-shadow: 0 0 0 1px $primary-color !important;
+                            outline: 2px solid transparent !important;
+                        }
+                    }
+
+                    // Custom checkmark SVG
+                    .components-checkbox-control__checked {
+                        position: absolute !important;
+                        left: 0 !important;
+                        top: 0 !important;
+                        width: 20px !important;
+                        height: 20px !important;
+                        pointer-events: none !important;
+                        color: white !important;
+                        display: none !important;
+
+                        path {
+                            fill: white !important;
+                        }
+                    }
+
+                    // Show checkmark only when checked
+                    .components-checkbox-control__input:checked + .components-checkbox-control__checked {
+                        display: block !important;
                     }
                 }
 
                 .components-checkbox-control__label {
-                    font-size: 13px;
-                    color: $text-color;
+                    font-size: 13px !important;
+                    color: $text-color !important;
+                    margin-bottom: 0 !important;
                 }
             }
         }
     }
 
-    &__results {
+    &__results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 24px;
         padding: 24px;
+
+        @media (max-width: 782px) {
+            flex-direction: column;
+            gap: 16px;
+
+            .wp-seo-analyzer__results-info {
+                width: 100%;
+            }
+
+            .components-base-control {
+                width: 100%;
+                min-width: 100% !important;
+            }
+        }
+
+        .wp-seo-analyzer__results-info {
+            h2 {
+                margin: 0 0 8px 0;
+                font-size: 1.3em;
+                font-weight: 600;
+            }
+
+            .wp-seo-analyzer__total-count {
+                display: block;
+                color: #666;
+                font-size: 13px;
+            }
+        }
+
+        .components-base-control {
+            margin-bottom: 0;
+            min-width: 200px;
+        }
+    }
+
+    &__table-section {
+        padding: 24px;
+        
+        @media (max-width: 782px) {
+            padding: 16px;
+        }
+    }
+
+    .table-wrapper {
+        @media (max-width: 782px) {
+            margin: 0 -16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
 
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin-bottom: 24px;
-            
+
+            @media (max-width: 782px) {
+                min-width: 650px;
+                font-size: 13px;
+                
+                th, td {
+                    padding: 8px;
+                }
+            }
+
             th {
                 background: $light-bg;
                 padding: 12px 16px;
@@ -229,10 +443,25 @@ $transition: all 0.2s ease-in-out;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 12px;
-        padding: 24px;
-        background: $light-bg;
+        gap: 16px;
+        margin-top: 24px;
+        padding-top: 16px;
         border-top: 1px solid $border-color;
+
+        @media (max-width: 782px) {
+            flex-wrap: wrap;
+            gap: 12px;
+            
+            .components-button {
+                min-width: 120px;
+            }
+
+            .page-info {
+                width: 100%;
+                text-align: center;
+                order: -1;
+            }
+        }
 
         .page-info {
             font-size: 13px;
@@ -260,6 +489,20 @@ $transition: all 0.2s ease-in-out;
                 opacity: 0.5;
                 cursor: not-allowed;
             }
+        }
+    }
+
+    &__error {
+        margin: 16px 24px;
+        padding: 12px 16px;
+        background: #f8d7da;
+        border: 1px solid #f5c2c7;
+        border-radius: 4px;
+        color: #842029;
+
+        @media (max-width: 782px) {
+            margin: 12px 16px;
+            font-size: 13px;
         }
     }
 }
