@@ -18,6 +18,7 @@ WP SEO Analyzer is a powerful, modern WordPress plugin that brings enterprise-le
 - 🎯 Precise keyword density analysis
 - 🔄 Real-time content processing
 - 📚 Support for all public post types
+- 🔗 Available as both a Gutenberg block and a shortcode
 
 ### 🎨 Modern User Interface
 - ⚡️ Lightning-fast, responsive design
@@ -40,6 +41,7 @@ WP SEO Analyzer is a powerful, modern WordPress plugin that brings enterprise-le
 | WordPress  | 6.7.1+  |
 | PHP        | 8.3.3+  |
 | Node.js    | 20.14.0+|
+| Permalinks | Post name - Permalink structure  for api to work |
 
 ### ⚡️ Installation
 
@@ -88,6 +90,8 @@ WP SEO Analyzer is a powerful, modern WordPress plugin that brings enterprise-le
 Base URL: `http://your-site.com/wp-json/wp-seo-analyzer/v1`
 
 #### 🔑 Authentication
+> **Note**: For testing purposes, nonce validation has been temporarily disabled to allow public access to the analyzer. This should be re-enabled in production environments.
+
 ```http
 GET /get-nonce
 ```
@@ -95,12 +99,11 @@ Returns a nonce token for authenticated requests.
 
 #### 📊 Content Analysis
 ```http
-GET /analyze
+POST /wp-json/wp-seo-analyzer/v1/analyze
 ```
 Parameters:
-- `keyword` (required): Your target keyword
-- `post_type` (optional): Content type to analyze
-- `show_only_keyword` (optional): Filter by keyword presence
+- `keyword`: String (required)
+- `post_type`: String (optional, default: 'all')
 
 #### 📑 Post Types
 ```http
@@ -118,6 +121,19 @@ We provide a comprehensive Postman collection for testing:
    1. Get your nonce token
    2. Set up authentication
    3. Explore endpoints
+
+### Gutenberg Block
+1. In the post editor, click the '+' button to add a new block
+2. Search for "SEO Analyzer" or find it in the "SEO Tools" category
+3. Add the block to your post
+4. Enter a keyword and click "Analyze" to see the results
+
+### Shortcode
+You can also use the shortcode `[seo_analyzer]` to display the analyzer in any post or page:
+
+```
+[seo_analyzer]
+```
 
 ## 👩‍💻 Development
 

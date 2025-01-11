@@ -12,7 +12,7 @@
         "html": false
     },
     "textdomain": "wp-seo-analyzer",
-    "editorScript": "file:../../../build/index.js",
-    "editorStyle": "file:../../../build/index.css",
-    "style": "file:../../../build/style-index.css"
+    "editorScript": "wp-seo-analyzer-editor",
+    "editorStyle": "wp-seo-analyzer-editor",
+    "style": "wp-seo-analyzer-editor"
 }

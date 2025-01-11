@@ -13,7 +13,7 @@ class Api {
         register_rest_route($this->namespace, '/analyze', [
             'methods' => 'GET',
             'callback' => [$this, 'analyze'],
-            'permission_callback' => [$this, 'check_permission'],
+            'permission_callback' => '__return_true', 
             'args' => [
                 'keyword' => [
                     'required' => true,

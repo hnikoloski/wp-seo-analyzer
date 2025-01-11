@@ -17,7 +17,7 @@ class RestAPI {
         register_rest_route($this->namespace, '/analyze', [
             'methods' => 'GET',
             'callback' => [$this, 'get_analysis'],
-            'permission_callback' => [$this, 'check_permission'],
+            'permission_callback' => '__return_true',
             'args' => [
                 'keyword' => [
                     'required' => false,
@@ -26,10 +26,6 @@ class RestAPI {
                 ]
             ]
         ]);
-    }
-
-    public function check_permission() {
-        return current_user_can('read');
     }
 
     public function get_analysis($request) {

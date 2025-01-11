@@ -16,6 +16,7 @@ class Plugin {
         add_action('init', [$this, 'init']);
         add_action('admin_menu', [$this, 'add_admin_menu']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
+        add_action('enqueue_block_editor_assets', [$this, 'enqueue_block_editor_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
         
         // Initialize API
@@ -34,95 +35,123 @@ class Plugin {
                     [
                         'slug' => 'seo-tools',
                         'title' => __('SEO Tools', 'wp-seo-analyzer'),
-                        'icon'  => 'chart-line' // Using Dashicons
+                        'icon'  => 'chart-line'
                     ]
                 ]
             );
         });
 
         // Register block
-        register_block_type(dirname(__DIR__) . '/src/blocks/seo-analyzer', [
+        register_block_type(dirname(__DIR__) . '/build/blocks/seo-analyzer', [
             'render_callback' => [$this, 'render_block']
         ]);
+
+        // Register scripts and styles
+        $this->register_assets();
     }
 
     public function register_assets() {
         $script_asset_path = dirname(__DIR__) . '/build/index.asset.php';
-        $script_asset = file_exists($script_asset_path)
-            ? require($script_asset_path)
-            : ['dependencies' => [], 'version' => filemtime(dirname(__DIR__) . '/build/index.js')];
+        if (!file_exists($script_asset_path)) {
+            throw new \Error(
+                'You need to run `npm start` or `npm run build` first.'
+            );
+        }
 
+        $script_asset = require($script_asset_path);
+        
+        // Register the main script
         wp_register_script(
-            'wp-seo-analyzer',
+            'wp-seo-analyzer-editor',
             plugins_url('build/index.js', dirname(__FILE__)),
-            array_merge(
-                ['wp-blocks', 'wp-element', 'wp-components', 'wp-i18n', 'wp-block-editor'],
-                $script_asset['dependencies']
-            ),
+            array_merge(['wp-element', 'wp-components', 'wp-blocks', 'wp-i18n'], $script_asset['dependencies']),
             $script_asset['version'],
             true
         );
 
+        // Register styles
         wp_register_style(
-            'wp-seo-analyzer-style',
+            'wp-seo-analyzer-editor',
             plugins_url('build/style-index.css', dirname(__FILE__)),
             [],
-            filemtime(dirname(__DIR__) . '/build/style-index.css')
+            $script_asset['version']
         );
 
-        wp_localize_script('wp-seo-analyzer', 'wpSeoAnalyzer', [
-            'apiUrl' => rest_url('wp-seo-analyzer/v1'),
+        // Register frontend script
+        wp_register_script(
+            'wp-seo-analyzer-frontend',
+            plugins_url('build/index.js', dirname(__FILE__)),
+            array_merge(['wp-element', 'wp-components'], $script_asset['dependencies']),
+            $script_asset['version'],
+            true
+        );
+
+        // Register frontend styles
+        wp_register_style(
+            'wp-seo-analyzer-frontend',
+            plugins_url('build/style-index.css', dirname(__FILE__)),
+            [],
+            $script_asset['version']
+        );
+
+        // Localize both scripts with a public nonce
+        $script_data = [
             'nonce' => wp_create_nonce('wp_rest'),
-        ]);
+            'apiUrl' => rest_url('wp-seo-analyzer/v1')
+        ];
+        wp_localize_script('wp-seo-analyzer-editor', 'wpSeoAnalyzer', $script_data);
+        wp_localize_script('wp-seo-analyzer-frontend', 'wpSeoAnalyzer', $script_data);
+    }
+
+    public function enqueue_block_editor_assets() {
+        wp_enqueue_script('wp-seo-analyzer-editor');
+        wp_enqueue_style('wp-seo-analyzer-editor');
     }
 
     public function enqueue_admin_assets($hook) {
-        if (!did_action('wp_register_scripts')) {
-            $this->register_assets();
+        if ('toplevel_page_wp-seo-analyzer' !== $hook) {
+            return;
         }
 
-        if ($hook === 'toplevel_page_wp-seo-analyzer') {
-            wp_enqueue_script('wp-seo-analyzer');
-            wp_enqueue_style('wp-seo-analyzer-style');
-        }
+        wp_enqueue_script('wp-seo-analyzer-editor');
+        wp_enqueue_style('wp-seo-analyzer-editor');
     }
 
     public function enqueue_frontend_assets() {
-        if (!did_action('wp_register_scripts')) {
-            $this->register_assets();
+        if (!has_block('wp-seo-analyzer/seo-analyzer') && !is_singular()) {
+            return;
         }
 
-        if (has_block('wp-seo-analyzer/seo-analyzer') || has_shortcode(get_post()->post_content, 'seo_analyzer')) {
-            wp_enqueue_script('wp-seo-analyzer');
-            wp_enqueue_style('wp-seo-analyzer-style');
-        }
-    }
-
-    public function render_block($attributes, $content) {
-        return sprintf(
-            '<div class="wp-block-wp-seo-analyzer-seo-analyzer"><div class="wp-seo-analyzer-content"></div></div>'
-        );
+        wp_enqueue_script('wp-seo-analyzer-frontend');
+        wp_enqueue_style('wp-seo-analyzer-frontend');
     }
 
     public function add_admin_menu() {
         add_menu_page(
             __('SEO Analyzer', 'wp-seo-analyzer'),
             __('SEO Analyzer', 'wp-seo-analyzer'),
-            'edit_posts',
+            'manage_options',
             'wp-seo-analyzer',
             [$this, 'render_admin_page'],
-            'dashicons-chart-bar'
+            'dashicons-chart-area'
         );
     }
 
     public function render_admin_page() {
-        echo '<div class="wrap">';
-        echo '<h1>' . esc_html__('SEO Analyzer', 'wp-seo-analyzer') . '</h1>';
-        echo '<div class="wp-seo-analyzer-content"></div>';
-        echo '</div>';
+        echo '<div id="wp-seo-analyzer-admin"></div>';
+    }
+
+    public function render_block($attributes) {
+        ob_start();
+        ?>
+        <div class="wp-block-wp-seo-analyzer-seo-analyzer">
+            <div id="wp-seo-analyzer-block"></div>
+        </div>
+        <?php
+        return ob_get_clean();
     }
 
     public function render_shortcode($atts) {
-        return '<div class="wp-seo-analyzer-shortcode"><div class="wp-seo-analyzer-content"></div></div>';
+        return $this->render_block($atts);
     }
 }

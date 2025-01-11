@@ -300,11 +300,17 @@ registerBlockType('wp-seo-analyzer/seo-analyzer', {
 
 // Initialize the component in all possible contexts
 document.addEventListener('DOMContentLoaded', () => {
-    const containers = document.querySelectorAll('.wp-seo-analyzer-content');
-    if (!containers.length) return;
-
-    containers.forEach(container => {
+    // Handle block frontend
+    const blockContainers = document.querySelectorAll('#wp-seo-analyzer-block');
+    blockContainers.forEach(container => {
         const root = wp.element.createRoot(container);
         root.render(<SeoAnalyzer />);
     });
+
+    // Handle admin page
+    const adminContainer = document.getElementById('wp-seo-analyzer-admin');
+    if (adminContainer) {
+        const root = wp.element.createRoot(adminContainer);
+        root.render(<SeoAnalyzer />);
+    }
 });
