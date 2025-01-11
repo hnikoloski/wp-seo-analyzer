@@ -10,7 +10,6 @@
 
 WP SEO Analyzer is a powerful, modern WordPress plugin that brings enterprise-level SEO analysis capabilities to your fingertips. Built with performance and user experience in mind, it helps you optimize your content with real-time analysis and actionable insights.
 
-![WP SEO Analyzer Demo](screenshot.png)
 
 ## ✨ Key Features
 
