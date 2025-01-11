@@ -41,18 +41,33 @@ WP SEO Analyzer is a powerful, modern WordPress plugin that brings enterprise-le
 | PHP        | 8.3.3+  |
 | Node.js    | 20.14.0+|
 
-### ⚡️ Quick Install
+### ⚡️ Installation
 
-#### 🔷 WordPress Plugin Directory
-1. 📁 Navigate to **Plugins** > **Add New** in WordPress
-2. 🔍 Search for "WP SEO Analyzer"
-3. ⚡️ Click "Install Now" then "Activate"
+1. 📥 Clone the repository
+   ```bash
+   git clone https://github.com/hnikoloski/wp-seo-analyzer.git
+   ```
 
-#### 🔷 Manual Installation
-1. 📥 Download the [latest release](https://github.com/yourusername/wp-seo-analyzer/releases)
-2. 📁 Go to **Plugins** > **Add New** > **Upload Plugin**
-3. 📤 Upload the zip file
-4. ✨ Click "Install Now" then "Activate"
+2. 📦 Install dependencies
+   ```bash
+   cd wp-seo-analyzer
+   npm install
+   ```
+
+3. 🔨 Build the plugin
+   ```bash
+   npm run build
+   ```
+
+4. 📁 Install in WordPress
+   - Copy the plugin folder to your WordPress installation's `wp-content/plugins/` directory
+   - Or create a ZIP file using `npm run plugin-zip` and upload it via the WordPress admin panel
+
+5. ✨ Activate the plugin
+   - Go to WordPress admin panel
+   - Navigate to Plugins
+   - Find "WP SEO Analyzer"
+   - Click "Activate"
 
 ## 🎮 Usage Guide
 
@@ -109,7 +124,7 @@ We provide a comprehensive Postman collection for testing:
 ### 🛠️ Setup
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/wp-seo-analyzer.git
+git clone https://github.com/hnikoloski/wp-seo-analyzer.git
 
 # Install dependencies
 npm install
