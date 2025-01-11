@@ -73,9 +73,9 @@ class Api {
 
     public function analyze($request) {
         // Verify nonce
-        if (!wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest')) {
-            return new \WP_Error('unauthorized', 'Invalid nonce', ['status' => 401]);
-        }
+        // if (!wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest')) {
+        //     return new \WP_Error('unauthorized', 'Invalid nonce', ['status' => 401]);
+        // }
 
         $keyword = sanitize_text_field($request->get_param('keyword'));
         $post_type = sanitize_text_field($request->get_param('post_type'));
